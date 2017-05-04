@@ -25,22 +25,22 @@ Basic example::
     session = Session()
 
     # Participate in a test (creates the test if necessary)
-    session.participate("new-test", ["alternative-1", "alternative-2"])
+    session.participate("<api_key>", "new-test", ["alternative-1", "alternative-2"])
 
     # Convert
-    session.convert("new-test")
+    session.convert("<api_key>", "new-test")
 
 Each session has a `client_id` associated with it that must be preserved across requests. Here's what the first request might look like::
 
     session = Session()
-    resp = session.participate("new-test", ["alternative-1", "alternative-2"])
+    resp = session.participate("<api_key>", "new-test", ["alternative-1", "alternative-2"])
     set_cookie_in_your_web_framework("sixpack-id", session.client_id)
 
 
 You can then make decisions in your application based on resp['alternative']['name']::
 
     session = Session()
-    resp = session.participate("new-test", ["alt-1", "alt-2"])
+    resp = session.participate("<api_key>", "new-test", ["alt-1", "alt-2"])
     if resp["alternative"]["name"] == "alt-1":
         set_variable_in_view("new-test-alternative", "alt-1")
 
@@ -48,7 +48,7 @@ For future requests, create the `Session` using the `client_id` stored in the co
 
     client_id = get_cookie_from_web_framework("sixpack-id")
     session = Session(client_id=client_id)
-    session.convert("new-test")
+    session.convert("<api_key>", "new-test")
 
 Sessions can take an optional `options` dictionary that takes `host` and `timeout` as keys. This allows you to customize Sixpack's location.::
 
