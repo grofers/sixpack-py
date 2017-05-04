@@ -3,7 +3,7 @@ import requests
 from uuid import uuid4
 
 SIXPACK_HOST = 'http://localhost:5000'
-SIXPACK_TIMEOUT = 0.5
+SIXPACK_TIMEOUT = 0.01
 
 # valid experiment_names must be lowercase, start with an alphanumeric and
 # contain alphanumerics, dashes and underscores
@@ -47,7 +47,7 @@ class Session(object):
         else:
             self.client_id = client_id
 
-    def participate(self, experiment_name, alternatives, force=None, traffic_fraction=1, prefetch=False):
+    def participate(self, api_key, experiment_name, alternatives, force=None, traffic_fraction=1, prefetch=False):
         if VALID_EXPT_NAME_RE.match(experiment_name) is None:
             raise ValueError('Bad experiment name')
 
@@ -60,6 +60,7 @@ class Session(object):
 
         params = {
             'client_id': self.client_id,
+            'api_key': api_key,
             'experiment': experiment_name,
             'alternatives': alternatives,
             'prefetch': prefetch
@@ -77,11 +78,12 @@ class Session(object):
             response['alternative'] = {'name': alternatives[0]}
         return response
 
-    def convert(self, experiment_name, kpi=None):
+    def convert(self, api_key, experiment_name, kpi=None):
         if VALID_EXPT_NAME_RE.match(experiment_name) is None:
             raise ValueError('Bad experiment name')
 
         params = {
+            'api_key': api_key,
             'experiment': experiment_name,
             'client_id': self.client_id
         }
