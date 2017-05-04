@@ -13,7 +13,7 @@ setup(
     author='SeatGeek',
     author_email='hi@seatgeek.com',
     packages=['sixpack', 'sixpack.test'],
-    url='http://github.com/seatgeek/sixpack-py',
+    url='http://github.com/grofers/sixpack-py',
     license=open('LICENSE.txt').read(),
     classifiers=[
         'Programming Language :: Python :: 2.7',
