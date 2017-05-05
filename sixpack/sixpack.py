@@ -75,6 +75,7 @@ class Session(object):
 
         response = self.get_response('/participate', params)
         if response['status'] == 'failed':
+            response['experiment'] = {'name': experiment_name}
             response['alternative'] = {'name': alternatives[0]}
         return response
 
