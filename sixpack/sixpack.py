@@ -2,6 +2,8 @@ import re
 import requests
 from uuid import uuid4
 
+REQUEST_SESSION = requests.Session()
+
 SIXPACK_HOST = 'http://localhost:5000'
 SIXPACK_TIMEOUT = 0.01
 
@@ -112,7 +114,7 @@ class Session(object):
             params = self.build_params(params)
 
         try:
-            response = requests.get(url, params=params, timeout=self.timeout)
+            response = REQUEST_SESSION.get(url, params=params, timeout=self.timeout)
         except Exception:
             return {"status": "failed", "response": "http error: sixpack is unreachable"}
 
