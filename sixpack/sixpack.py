@@ -21,6 +21,9 @@ def generate_client_id():
 
 class Session(object):
 
+    SUCCESS = 'ok'
+    FAILED = 'failed'
+
     def __init__(self, client_id=None, options=None, params=None):
         use_options = {
             'host': SIXPACK_HOST,
@@ -76,7 +79,7 @@ class Session(object):
         params['traffic_fraction'] = str(traffic_fraction)
 
         response = self.get_response('/participate', params)
-        if response['status'] == 'failed':
+        if response['status'] == self.FAILED:
             response['experiment'] = {'name': experiment_name}
             response['alternative'] = {'name': alternatives[0]}
         return response
@@ -116,12 +119,12 @@ class Session(object):
         try:
             response = REQUEST_SESSION.get(url, params=params, timeout=self.timeout)
         except Exception:
-            return {"status": "failed", "response": "http error: sixpack is unreachable"}
+            return {"status": self.FAILED, "response": "http error: sixpack is unreachable"}
 
         if response.status_code != 200:
-            return {"status": "failed", "response": response.content}
+            return {"status": self.FAILED, "response": response.content}
 
         try:
             return response.json()
         except ValueError:
-            return {"status": "failed", "response": response.content}
+            return {"status": self.FAILED, "response": response.content}
