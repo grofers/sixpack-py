@@ -19,7 +19,7 @@ def generate_client_id():
     return uuid4()
 
 
-class Session(object):
+class ABSession(object):
 
     SUCCESS = 'ok'
     FAILED = 'failed'
